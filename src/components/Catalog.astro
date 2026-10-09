@@ -1,5 +1,6 @@
 ---
 import { products, categories } from '../data/products.js';
+import { siteConfig } from '../data/config.js';
 import ProductCard from './ProductCard.astro';
 ---
 
@@ -34,7 +35,51 @@ import ProductCard from './ProductCard.astro';
   </div>
 </section>
 
-<script>
+<!-- ============ MODAL DE PRODUCTO ============ -->
+<div
+  id="product-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+>
+  <div
+    id="modal-panel"
+    class="relative w-full max-w-lg overflow-hidden rounded-2xl border border-white/15 bg-panel shadow-2xl"
+  >
+    <button
+      id="modal-close"
+      aria-label="Cerrar"
+      class="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-xl text-white/80 backdrop-blur transition hover:bg-black/70 hover:text-white"
+    >
+      ✕
+    </button>
+
+    <div class="flex h-64 items-center justify-center bg-gradient-to-br from-white/10 to-transparent sm:h-80">
+      <img id="modal-img" class="hidden h-full w-full object-cover" alt="" />
+      <span id="modal-placeholder" class="text-8xl opacity-40">💨</span>
+    </div>
+
+    <div class="p-6">
+      <span id="modal-badge" class="hidden rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide"></span>
+      <h3 id="modal-nombre" class="mt-2 text-2xl font-black"></h3>
+      <p id="modal-desc" class="mt-2 text-white/60"></p>
+      <p id="modal-puffs" class="mt-1 text-xs uppercase tracking-wide text-white/40"></p>
+
+      <div class="mt-6 flex items-center justify-between gap-3">
+        <p id="modal-precio" class="text-3xl font-black text-aqua"></p>
+        <a
+          id="modal-wa"
+          href="#"
+          target="_blank"
+          rel="noopener"
+          class="rounded-xl bg-gradient-to-r from-neon to-aqua px-6 py-3 font-bold text-night transition hover:opacity-90"
+        >
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ moneda: siteConfig.moneda, whatsapp: siteConfig.whatsapp }}>
   const buttons = document.querySelectorAll('.tab-btn');
   const cards = document.querySelectorAll('.product-card');
 
@@ -57,5 +102,80 @@ import ProductCard from './ProductCard.astro';
         card.classList.toggle('hidden', !show);
       });
     });
+  });
+
+  // ===== Modal de producto =====
+  const modal = document.getElementById('product-modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalPlaceholder = document.getElementById('modal-placeholder');
+  const modalBadge = document.getElementById('modal-badge');
+  const modalNombre = document.getElementById('modal-nombre');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalPuffs = document.getElementById('modal-puffs');
+  const modalPrecio = document.getElementById('modal-precio');
+  const modalWa = document.getElementById('modal-wa');
+  const closeBtn = document.getElementById('modal-close');
+
+  const badgeStyles = {
+    nuevo: 'bg-aqua/15 text-aqua border-aqua/30',
+    top: 'bg-neon/15 text-neon border-neon/30',
+    agotado: 'bg-red-500/15 text-red-400 border-red-500/30',
+  };
+  const badgeLabels = { nuevo: 'Nuevo', top: 'Top ventas', agotado: 'Agotado' };
+
+  function openModal(p, card) {
+    if (p.imagen) {
+      modalImg.src = p.imagen;
+      modalImg.alt = p.nombre;
+      modalImg.classList.remove('hidden');
+      modalPlaceholder.classList.add('hidden');
+    } else {
+      modalImg.classList.add('hidden');
+      modalPlaceholder.classList.remove('hidden');
+    }
+
+    if (p.badge) {
+      modalBadge.textContent = badgeLabels[p.badge];
+      modalBadge.className =
+        'rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ' + badgeStyles[p.badge];
+    } else {
+      modalBadge.className = 'hidden';
+    }
+
+    modalNombre.textContent = p.nombre;
+    modalDesc.textContent = p.descripcion;
+    modalPuffs.textContent = p.puffs ? `${p.puffs} puffs` : '';
+    modalPrecio.textContent = `${moneda}${p.precio}`;
+
+    const agotado = p.badge === 'agotado';
+    modalWa.classList.toggle('hidden', agotado);
+    const msg = encodeURIComponent(`Hola! Me interesa el producto: *${p.nombre}* (${moneda}${p.precio}). ¿Está disponible?`);
+    modalWa.href = `https://wa.me/${whatsapp}?text=${msg}`;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      // No abrir el modal si el clic fue en el botón Consultar de la card
+      if (e.target.closest('a')) return;
+      openModal(JSON.parse(card.dataset.product), card);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
   });
 </script>

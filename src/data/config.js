@@ -1,13 +1,12 @@
 // ===== CONFIGURACIÓN DEL NEGOCIO =====
 // Cambia estos valores por los tuyos.
 export const siteConfig = {
-  nombre: 'VaporHouse',
+  nombre: 'Vapes Skull Gv',
   tagline: 'Catálogo exclusivo · Calidad garantizada',
   // Número de WhatsApp en formato internacional, sin "+" ni espacios:
   whatsapp: '34600000000',
   instagram: 'https://instagram.com/tuusuario',
-  telegram: 'https://t.me/tuusuario',
-  moneda: '€',
+  moneda: '$',
 };
 
 // Mensaje base que se prellena al consultar por WhatsApp

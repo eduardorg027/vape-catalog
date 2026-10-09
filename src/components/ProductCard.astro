@@ -14,10 +14,11 @@ const agotado = product.badge === 'agotado';
 
 <article
   class:list={[
-    'product-card group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-panel transition-all duration-300 hover:-translate-y-1 hover:border-neon/40 hover:shadow-xl hover:shadow-neon/10',
+    'product-card group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 bg-panel transition-all duration-300 hover:-translate-y-1 hover:border-neon/40 hover:shadow-xl hover:shadow-neon/10',
     { 'opacity-60': agotado },
   ]}
   data-categoria={product.categoria}
+  data-product={JSON.stringify(product)}
 >
   <!-- Imagen / placeholder -->
   <div class="relative flex h-44 items-center justify-center bg-gradient-to-br from-white/5 to-transparent">
