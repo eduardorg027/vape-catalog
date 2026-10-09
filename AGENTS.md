@@ -42,3 +42,8 @@ npm run preview # previsualizar el build
 ## Notas
 - Verificación +18 con `localStorage` (no se repite al volver).
 - Contacto principal: WhatsApp (`wa.me` con mensaje prellenado incluyendo nombre y precio del producto).
+
+## Git / GitHub
+- Repo público: https://github.com/eduardorg027/vape-catalog (remoto `origin`, rama `main`)
+- Autenticado con GitHub CLI (`gh`), usuario `eduardorg027`, protocolo HTTPS
+- Flujo: `git add -A` → `git commit -m "..."` → `git push`
