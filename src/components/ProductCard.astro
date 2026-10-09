@@ -1,0 +1,67 @@
+---
+import { whatsappLink, siteConfig } from '../data/config.js';
+
+const { product } = Astro.props;
+
+const badgeStyles = {
+  nuevo: 'bg-aqua/15 text-aqua border-aqua/30',
+  top: 'bg-neon/15 text-neon border-neon/30',
+  agotado: 'bg-red-500/15 text-red-400 border-red-500/30',
+};
+const badgeLabels = { nuevo: 'Nuevo', top: 'Top ventas', agotado: 'Agotado' };
+const agotado = product.badge === 'agotado';
+---
+
+<article
+  class:list={[
+    'product-card group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-panel transition-all duration-300 hover:-translate-y-1 hover:border-neon/40 hover:shadow-xl hover:shadow-neon/10',
+    { 'opacity-60': agotado },
+  ]}
+  data-categoria={product.categoria}
+>
+  <!-- Imagen / placeholder -->
+  <div class="relative flex h-44 items-center justify-center bg-gradient-to-br from-white/5 to-transparent">
+    {
+      product.imagen ? (
+        <img src={product.imagen} alt={product.nombre} class="h-full w-full object-cover" loading="lazy" />
+      ) : (
+        <span class="text-6xl opacity-40 transition group-hover:scale-110">💨</span>
+      )
+    }
+    {
+      product.badge && (
+        <span
+          class={`absolute left-3 top-3 rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ${badgeStyles[product.badge]}`}
+        >
+          {badgeLabels[product.badge]}
+        </span>
+      )
+    }
+  </div>
+
+  <div class="flex flex-1 flex-col p-4">
+    <h3 class="font-bold leading-snug">{product.nombre}</h3>
+    <p class="mt-1 text-sm text-white/50">{product.descripcion}</p>
+
+    <div class="mt-4 flex items-end justify-between gap-2">
+      <div>
+        {product.puffs && <p class="text-[11px] uppercase tracking-wide text-white/40">{product.puffs} puffs</p>}
+        <p class="text-2xl font-black text-aqua">
+          {siteConfig.moneda}{product.precio}
+        </p>
+      </div>
+      {
+        !agotado && (
+          <a
+            href={whatsappLink(product)}
+            target="_blank"
+            rel="noopener"
+            class="rounded-lg bg-gradient-to-r from-neon to-aqua px-3 py-2 text-xs font-bold text-night transition hover:opacity-90"
+          >
+            Consultar
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>

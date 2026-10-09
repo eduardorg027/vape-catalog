@@ -1,0 +1,41 @@
+<div
+  id="age-gate"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md"
+>
+  <div class="mx-4 max-w-md rounded-2xl border border-white/10 bg-panel p-8 text-center shadow-2xl">
+    <div class="text-5xl">🔞</div>
+    <h2 class="mt-4 text-2xl font-extrabold">Verificación de edad</h2>
+    <p class="mt-2 text-sm text-white/60">
+      Este sitio contiene productos destinados exclusivamente a <strong>mayores de 18 años</strong>.
+    </p>
+    <div class="mt-6 flex gap-3">
+      <button
+        id="age-yes"
+        class="flex-1 rounded-xl bg-gradient-to-r from-neon to-aqua px-4 py-3 font-bold text-night transition hover:opacity-90"
+      >
+        Tengo +18
+      </button>
+      <a
+        href="https://google.com"
+        class="flex-1 rounded-xl border border-white/15 px-4 py-3 font-semibold text-white/70 transition hover:bg-white/5"
+      >
+        Salir
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const gate = document.getElementById('age-gate');
+  const yes = document.getElementById('age-yes');
+  if (localStorage.getItem('age-ok') === '1') {
+    gate?.remove();
+  } else {
+    document.body.style.overflow = 'hidden';
+  }
+  yes?.addEventListener('click', () => {
+    localStorage.setItem('age-ok', '1');
+    gate?.remove();
+    document.body.style.overflow = '';
+  });
+</script>

@@ -1,0 +1,49 @@
+---
+import { siteConfig } from '../data/config.js';
+---
+
+<header class="relative overflow-hidden">
+  <!-- Fondos decorativos -->
+  <div class="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-neon/30 blur-3xl"></div>
+  <div class="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-aqua/20 blur-3xl"></div>
+
+  <nav class="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+    <span class="text-xl font-black tracking-tight">
+      {siteConfig.nombre}<span class="text-aqua">.</span>
+    </span>
+    <a
+      href={`https://wa.me/${siteConfig.whatsapp}`}
+      target="_blank"
+      rel="noopener"
+      class="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-white/10"
+    >
+      Contactar 💬
+    </a>
+  </nav>
+
+  <div class="relative mx-auto max-w-6xl px-6 pb-20 pt-16 text-center md:pt-24">
+    <p class="mb-4 inline-block rounded-full border border-aqua/30 bg-aqua/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-aqua">
+      Catálogo privado · Envíos discretos
+    </p>
+    <h1 class="bg-gradient-to-r from-white via-neon to-aqua bg-clip-text text-5xl font-black leading-tight text-transparent md:text-7xl">
+      {siteConfig.nombre}
+    </h1>
+    <p class="mx-auto mt-5 max-w-xl text-lg text-white/60">{siteConfig.tagline}</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <a
+        href="#catalogo"
+        class="rounded-xl bg-gradient-to-r from-neon to-aqua px-8 py-3 font-bold text-night shadow-lg shadow-neon/25 transition hover:scale-105"
+      >
+        Ver catálogo ↓
+      </a>
+      <a
+        href={`https://wa.me/${siteConfig.whatsapp}`}
+        target="_blank"
+        rel="noopener"
+        class="rounded-xl border border-white/15 bg-white/5 px-8 py-3 font-semibold backdrop-blur transition hover:bg-white/10"
+      >
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</header>

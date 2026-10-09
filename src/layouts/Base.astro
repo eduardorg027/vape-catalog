@@ -1,0 +1,20 @@
+---
+import { siteConfig } from '../data/config.js';
+const { title = siteConfig.nombre } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Catálogo de vapes: desechables, sabores y especiales. Consulta por WhatsApp." />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-night text-white font-display antialiased">
+    <slot />
+  </body>
+</html>
