@@ -18,12 +18,12 @@ export const products = [
   {
     id: 2,
     categoria: 'desechables',
-    nombre: 'Lost Mary BM3500 — Blue Razz',
-    descripcion: '3500 puffs, sabor frambuesa azul.',
+    nombre: 'NEXA PIX 35K - Frozen Banana',
+    descripcion: '35000 puffs, sabor frambuesa azul.',
     precio: 250,
-    puffs: 3500,
-    imagen: null,
-    badge: null,
+    puffs: 35000,
+    imagen: '/productos/nexa-pix2.jpg',
+    badge: 'top',
   },
   {
     id: 3,
