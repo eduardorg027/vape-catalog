@@ -1,26 +1,36 @@
 <div
   id="age-gate"
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md"
+  class="fixed inset-0 z-[60] flex items-center justify-center bg-overlay p-4 backdrop-blur-xl"
 >
-  <div class="mx-4 max-w-md rounded-2xl border border-white/10 bg-panel p-8 text-center shadow-2xl">
-    <div class="text-5xl">🔞</div>
-    <h2 class="mt-4 text-2xl font-extrabold">Verificación de edad</h2>
-    <p class="mt-2 text-sm text-white/60">
-      Este sitio contiene productos destinados exclusivamente a <strong>mayores de 18 años</strong>.
-    </p>
-    <div class="mt-6 flex gap-3">
-      <button
-        id="age-yes"
-        class="flex-1 rounded-xl bg-gradient-to-r from-neon to-aqua px-4 py-3 font-bold text-night transition hover:opacity-90"
-      >
-        Tengo +18
-      </button>
-      <a
-        href="https://google.com"
-        class="flex-1 rounded-xl border border-white/15 px-4 py-3 font-semibold text-white/70 transition hover:bg-white/5"
-      >
-        Salir
-      </a>
+  <div class="relative w-full max-w-md overflow-hidden rounded-3xl border border-line bg-surface p-8 text-center">
+    <div class="relative">
+      <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-acid text-3xl text-onacid">
+        💀
+      </div>
+      <h2 class="mt-5 font-display text-2xl uppercase tracking-tight">Verificación de edad</h2>
+      <p class="mt-2 text-sm leading-relaxed text-bone/55">
+        Este catálogo contiene productos de vapeo destinados
+        <strong class="text-bone/85">exclusivamente a mayores de 18 años</strong>.
+      </p>
+
+      <div class="mt-7 flex flex-col gap-3">
+        <button
+          id="age-yes"
+          class="w-full rounded-xl bg-acid px-4 py-3.5 font-bold text-onacid transition hover:brightness-105"
+        >
+          Sí, soy mayor de 18
+        </button>
+        <a
+          href="https://google.com"
+          class="w-full rounded-xl border border-line px-4 py-3 text-sm font-semibold text-bone/60 transition hover:text-bone/85"
+        >
+          Salir
+        </a>
+      </div>
+
+      <p class="mt-5 text-[11px] uppercase tracking-widest text-bone/30">
+        Producto con nicotina · Adictivo
+      </p>
     </div>
   </div>
 </div>

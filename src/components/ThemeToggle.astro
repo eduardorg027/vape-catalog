@@ -1,0 +1,92 @@
+<button
+  id="theme-toggle"
+  type="button"
+  role="switch"
+  aria-checked="false"
+  aria-label="Cambiar entre tema oscuro y claro"
+  title="Cambiar tema"
+  class="group relative flex h-9 w-[4.25rem] flex-shrink-0 items-center justify-between rounded-full border border-line bg-elev px-2 transition hover:border-acid/45"
+>
+  <!-- Icono de fondo: sol (izquierda) -->
+  <svg
+    class="h-4 w-4 text-bone/35 transition group-hover:text-bone/50"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+  >
+    <circle cx="12" cy="12" r="4.2"></circle>
+    <path d="M12 2.8v2.2M12 19v2.2M2.8 12h2.2M19 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4L17 7M7 17l-1.6 1.6"
+    ></path>
+  </svg>
+
+  <!-- Icono de fondo: luna (derecha) -->
+  <svg class="h-4 w-4 text-bone/35 transition group-hover:text-bone/50" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+  </svg>
+
+  <!-- Perilla deslizante -->
+  <span
+    id="theme-knob"
+    class="pointer-events-none absolute left-1 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-acid text-onacid shadow-md transition-transform duration-300 ease-out"
+  >
+    <!-- Icono dentro de la perilla: luna (modo oscuro) -->
+    <svg class="theme-knob-moon h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+    </svg>
+    <!-- Icono dentro de la perilla: sol (modo claro) -->
+    <svg
+      class="theme-knob-sun h-4 w-4"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    >
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.5 1.5M16.9 16.9l1.5 1.5M18.4 5.6l-1.5 1.5M7.1 16.9l-1.5 1.5"></path>
+    </svg>
+  </span>
+</button>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+
+  function sync() {
+    const esClaro = document.documentElement.classList.contains('light');
+    btn?.setAttribute('aria-checked', String(esClaro));
+  }
+  sync();
+
+  btn?.addEventListener('click', () => {
+    const root = document.documentElement;
+    const irAClaro = !root.classList.contains('light');
+    root.classList.toggle('light', irAClaro);
+    try {
+      localStorage.setItem('theme', irAClaro ? 'light' : 'dark');
+    } catch (e) {}
+    sync();
+  });
+</script>
+
+<style>
+  /* Posiciones de la perilla: derecha = oscuro (por defecto), izquierda = claro */
+  #theme-knob {
+    transform: translateX(2rem);
+  }
+  html.light #theme-knob {
+    transform: translateX(0);
+  }
+
+  /* Icono dentro de la perilla según el tema */
+  .theme-knob-sun {
+    display: none;
+  }
+  html.light .theme-knob-sun {
+    display: block;
+  }
+  html.light .theme-knob-moon {
+    display: none;
+  }
+</style>

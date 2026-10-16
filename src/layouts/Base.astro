@@ -8,13 +8,82 @@ const { title = siteConfig.nombre } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Catálogo de vapes: desechables, sabores y especiales. Consulta por WhatsApp." />
+    <meta name="description" content="Catálogo de vapes: desechables y especiales. Consulta por WhatsApp." />
+    <meta name="theme-color" content="#0B0B0B" />
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Aplica el tema guardado antes de pintar (evita parpadeo) -->
+    <script is:inline>
+      (function () {
+        try {
+          if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.add('light');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      /* ===== Tokens de tema ===== */
+      :root {
+        --ink: 11 11 11;
+        --surface: 22 22 22;
+        --bone: 245 245 240;
+        --muted: 138 138 138;
+        --acid: 203 255 62;
+        --accent: 203 255 62;
+        --acid-soft: #e4ff8c;
+        --acid-deep: #9bdb00;
+        --line: rgba(255, 255, 255, 0.1);
+        --elev: rgba(255, 255, 255, 0.05);
+        --overlay: rgba(11, 11, 11, 0.92);
+        --grid: rgba(255, 255, 255, 0.03);
+        color-scheme: dark;
+      }
+
+      html.light {
+        --ink: 240 237 229; /* papel cálido, no blanco puro */
+        --surface: 250 248 243; /* tarjeta blanco cálido */
+        --bone: 26 25 21;
+        --muted: 108 106 100;
+        --acid: 190 240 55;
+        --accent: 88 118 8; /* oliva para buen contraste sobre papel */
+        --acid-soft: #7fa800;
+        --acid-deep: #4e6b00;
+        --line: rgba(58, 53, 43, 0.14);
+        --elev: rgba(58, 53, 43, 0.05);
+        --overlay: rgba(240, 237, 229, 0.95);
+        --grid: rgba(58, 53, 43, 0.045);
+        color-scheme: light;
+      }
+
+      /* Rejilla técnica sutil de fondo */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(to right, var(--grid) 1px, transparent 1px),
+          linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000 30%, transparent 100%);
+      }
+
+      ::selection {
+        background: rgb(var(--acid));
+        color: #0b0b0b;
+      }
+    </style>
   </head>
-  <body class="bg-night text-white font-display antialiased">
-    <slot />
+  <body class="bg-ink font-sans text-bone antialiased">
+    <div class="relative z-10">
+      <slot />
+    </div>
   </body>
 </html>

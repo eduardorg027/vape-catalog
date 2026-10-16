@@ -9,10 +9,11 @@ export const siteConfig = {
   moneda: '$',
 };
 
-// Mensaje base que se prellena al consultar por WhatsApp
+// Mensaje que se prellena al consultar por WhatsApp
 export function whatsappLink(producto) {
+  const precio = producto.precio != null ? ` (${siteConfig.moneda}${producto.precio})` : '';
   const msg = encodeURIComponent(
-    `Hola! Me interesa el producto: *${producto.nombre}* (${siteConfig.moneda}${producto.precio}). ¿Está disponible?`
+    `Hola! Me interesa el producto: *${producto.nombre}*${precio}. ¿Está disponible?`
   );
   return `https://wa.me/${siteConfig.whatsapp}?text=${msg}`;
 }

@@ -1,79 +1,144 @@
 ---
-import { products, categories } from '../data/products.js';
+import { products as rawProducts, categories } from '../data/products.js';
 import { siteConfig } from '../data/config.js';
 import ProductCard from './ProductCard.astro';
+
+// Ordena automáticamente de más puffs a menos (los que no tienen puffs van al final)
+const products = [...rawProducts].sort((a, b) => (b.puffs ?? -1) - (a.puffs ?? -1));
 ---
 
-<section id="catalogo" class="mx-auto max-w-6xl px-6 py-16">
-  <h2 class="text-center text-3xl font-black md:text-4xl">
-    Nuestro <span class="bg-gradient-to-r from-neon to-aqua bg-clip-text text-transparent">catálogo</span>
-  </h2>
-  <p class="mt-3 text-center text-white/50">Explora por categoría y consulta disponibilidad por WhatsApp.</p>
-
-  <!-- Tabs -->
-  <div class="mt-10 flex flex-wrap justify-center gap-2">
-    {
-      categories.map((cat, i) => (
-        <button
-          class:list={[
-            'tab-btn rounded-full border px-5 py-2 text-sm font-semibold transition',
-            i === 0
-              ? 'border-transparent bg-gradient-to-r from-neon to-aqua text-night'
-              : 'border-white/15 bg-white/5 text-white/70 hover:bg-white/10',
-          ]}
-          data-filter={cat.id}
-        >
-          {cat.icon} {cat.label}
-        </button>
-      ))
-    }
+<section id="catalogo" class="mx-auto max-w-6xl scroll-mt-6 px-4 py-16 sm:px-6 md:py-20">
+  <!-- Encabezado -->
+  <div class="mx-auto max-w-2xl text-center">
+    <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-accent">Catálogo</p>
+    <h2 class="mt-3 font-display text-3xl uppercase leading-tight tracking-tight md:text-4xl">
+      Elige tu <span class="text-accent">próximo favorito</span>
+    </h2>
+    <p class="mt-4 text-sm leading-relaxed text-bone/50 md:text-base">
+      Filtra por categoría o busca por nombre. Consulta disponibilidad por WhatsApp.
+    </p>
   </div>
 
+  <!-- Barra de filtros -->
+  <div class="mt-10 max-w-full rounded-2xl border border-line bg-surface/60 p-3 backdrop-blur-xl">
+    <div class="flex min-w-0 flex-col gap-3 md:flex-row md:items-center">
+      <!-- Tabs: scroll horizontal en móvil, fila en escritorio -->
+      <div class="scrollbar-none -mx-1 flex min-w-0 flex-1 gap-2 overflow-x-auto px-1 pb-0.5">
+        {
+          categories.map((cat, i) => (
+            <button
+              class:list={[
+                'tab-btn flex-shrink-0 whitespace-nowrap rounded-xl border px-3.5 py-2 text-[13px] font-semibold transition sm:px-4 sm:text-sm',
+                i === 0
+                  ? 'border-transparent bg-acid text-onacid'
+                  : 'border-line bg-elev text-bone/60 hover:text-bone/90',
+              ]}
+              data-filter={cat.id}
+            >
+              <span class="mr-1">{cat.icon}</span>
+              {cat.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- Buscador: ancho completo en móvil, fijo en escritorio -->
+      <div class="relative w-full min-w-0 md:w-60 md:flex-none lg:w-64">
+        <svg
+          class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-bone/30"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+        >
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.5-3.5"></path>
+        </svg>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Buscar producto..."
+          class="w-full appearance-none rounded-xl border border-line bg-elev py-2.5 pl-9 pr-3 text-sm text-bone outline-none transition placeholder:text-bone/30 focus:border-acid/50 [&::-webkit-search-cancel-button]:appearance-none"
+        />
+      </div>
+    </div>
+  </div>
+
+  <p id="results-count" class="mt-4 text-xs uppercase tracking-widest text-bone/30">
+    {products.length} productos
+  </p>
+
   <!-- Grid -->
-  <div id="product-grid" class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+  <div id="product-grid" class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     {products.map((p) => <ProductCard product={p} />)}
+  </div>
+
+  <!-- Estado vacío -->
+  <div id="empty-state" class="hidden py-20 text-center">
+    <p class="text-5xl opacity-30">🔍</p>
+    <p class="mt-4 text-lg font-bold">Sin resultados</p>
+    <p class="mt-1 text-sm text-bone/45">Prueba con otra categoría o término de búsqueda.</p>
   </div>
 </section>
 
 <!-- ============ MODAL DE PRODUCTO ============ -->
 <div
   id="product-modal"
-  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-overlay p-4 backdrop-blur-xl"
 >
   <div
     id="modal-panel"
-    class="relative w-full max-w-lg overflow-hidden rounded-2xl border border-white/15 bg-panel shadow-2xl"
+    class="animate-fadeUp relative w-full max-w-3xl overflow-hidden rounded-3xl border border-line bg-surface shadow-glow"
   >
     <button
       id="modal-close"
       aria-label="Cerrar"
-      class="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-xl text-white/80 backdrop-blur transition hover:bg-black/70 hover:text-white"
+      class="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-line bg-elev text-sm text-bone/70 backdrop-blur transition hover:text-bone"
     >
       ✕
     </button>
 
-    <div class="flex h-64 items-center justify-center bg-gradient-to-br from-white/10 to-transparent sm:h-80">
-      <img id="modal-img" class="hidden h-full w-full object-cover" alt="" />
-      <span id="modal-placeholder" class="text-8xl opacity-40">💨</span>
-    </div>
+    <div class="grid md:grid-cols-2">
+      <!-- Imagen -->
+      <div class="relative flex aspect-[4/3] items-center justify-center bg-elev md:aspect-auto md:min-h-[26rem]">
+        <img id="modal-img" class="hidden h-full w-full object-contain p-8" alt="" />
+        <span id="modal-placeholder" class="text-8xl opacity-20">💨</span>
+      </div>
 
-    <div class="p-6">
-      <span id="modal-badge" class="hidden rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide"></span>
-      <h3 id="modal-nombre" class="mt-2 text-2xl font-black"></h3>
-      <p id="modal-desc" class="mt-2 text-white/60"></p>
-      <p id="modal-puffs" class="mt-1 text-xs uppercase tracking-wide text-white/40"></p>
+      <!-- Información -->
+      <div class="flex flex-col p-6 md:p-8">
+        <div class="flex flex-wrap items-center gap-2">
+          <span id="modal-badge" class="hidden rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest"></span>
+          <span id="modal-categoria" class="rounded-full border border-line bg-elev px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-bone/50"></span>
+        </div>
 
-      <div class="mt-6 flex items-center justify-between gap-3">
-        <p id="modal-precio" class="text-3xl font-black text-aqua"></p>
-        <a
-          id="modal-wa"
-          href="#"
-          target="_blank"
-          rel="noopener"
-          class="rounded-xl bg-gradient-to-r from-neon to-aqua px-6 py-3 font-bold text-night transition hover:opacity-90"
-        >
-          Consultar por WhatsApp
-        </a>
+        <h3 id="modal-nombre" class="mt-4 text-2xl font-black leading-tight tracking-tight text-bone"></h3>
+        <p id="modal-desc" class="mt-3 text-sm leading-relaxed text-bone/55"></p>
+
+        <div id="modal-specs" class="mt-5 flex flex-wrap gap-2"></div>
+
+        <div class="mt-auto pt-6">
+          <div class="flex items-end justify-between border-t border-line pt-5">
+            <div>
+              <p class="text-[10px] uppercase tracking-widest text-bone/35">Precio</p>
+              <p id="modal-precio" class="text-4xl font-black leading-none tracking-tight text-accent"></p>
+            </div>
+          </div>
+
+          <a
+            id="modal-wa"
+            href="#"
+            target="_blank"
+            rel="noopener"
+            class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-acid px-6 py-3.5 font-bold text-onacid transition hover:brightness-105"
+          >
+            Consultar por WhatsApp
+          </a>
+          <p class="mt-3 text-center text-[11px] text-bone/30">
+            Respuesta inmediata · Entrega discreta
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -82,26 +147,46 @@ import ProductCard from './ProductCard.astro';
 <script define:vars={{ moneda: siteConfig.moneda, whatsapp: siteConfig.whatsapp }}>
   const buttons = document.querySelectorAll('.tab-btn');
   const cards = document.querySelectorAll('.product-card');
+  const searchInput = document.getElementById('search-input');
+  const counter = document.getElementById('results-count');
+  const emptyState = document.getElementById('empty-state');
 
-  const activeClasses = ['border-transparent', 'bg-gradient-to-r', 'from-neon', 'to-aqua', 'text-night'];
-  const inactiveClasses = ['border-white/15', 'bg-white/5', 'text-white/70'];
+  const activeClasses = ['border-transparent', 'bg-acid', 'text-onacid'];
+  const inactiveClasses = ['border-line', 'bg-elev', 'text-bone/60'];
+
+  let currentCat = 'todos';
+  let currentQuery = '';
+
+  function applyFilters() {
+    let visible = 0;
+    cards.forEach((card) => {
+      const matchCat = currentCat === 'todos' || card.dataset.categoria === currentCat;
+      const matchQuery = !currentQuery || card.dataset.search.includes(currentQuery);
+      const show = matchCat && matchQuery;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    counter.textContent = `${visible} ${visible === 1 ? 'producto' : 'productos'}`;
+    emptyState.classList.toggle('hidden', visible !== 0);
+  }
 
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
-
+      currentCat = btn.dataset.filter;
       buttons.forEach((b) => {
         b.classList.remove(...activeClasses);
         b.classList.add(...inactiveClasses);
       });
       btn.classList.remove(...inactiveClasses);
       btn.classList.add(...activeClasses);
-
-      cards.forEach((card) => {
-        const show = filter === 'todos' || card.dataset.categoria === filter;
-        card.classList.toggle('hidden', !show);
-      });
+      applyFilters();
     });
+  });
+
+  searchInput.addEventListener('input', (e) => {
+    currentQuery = e.target.value.trim().toLowerCase();
+    applyFilters();
   });
 
   // ===== Modal de producto =====
@@ -109,21 +194,30 @@ import ProductCard from './ProductCard.astro';
   const modalImg = document.getElementById('modal-img');
   const modalPlaceholder = document.getElementById('modal-placeholder');
   const modalBadge = document.getElementById('modal-badge');
+  const modalCategoria = document.getElementById('modal-categoria');
   const modalNombre = document.getElementById('modal-nombre');
   const modalDesc = document.getElementById('modal-desc');
-  const modalPuffs = document.getElementById('modal-puffs');
+  const modalSpecs = document.getElementById('modal-specs');
   const modalPrecio = document.getElementById('modal-precio');
   const modalWa = document.getElementById('modal-wa');
   const closeBtn = document.getElementById('modal-close');
 
   const badgeStyles = {
-    nuevo: 'bg-aqua/15 text-aqua border-aqua/30',
-    top: 'bg-neon/15 text-neon border-neon/30',
-    agotado: 'bg-red-500/15 text-red-400 border-red-500/30',
+    nuevo: 'border-acid/40 bg-acid/15 text-accent',
+    top: 'border-line bg-elev text-bone',
+    agotado: 'border-red-500/40 bg-red-500/15 text-red-500',
   };
   const badgeLabels = { nuevo: 'Nuevo', top: 'Top ventas', agotado: 'Agotado' };
+  const catLabels = { desechables: 'Desechables', especiales: 'Especiales' };
 
-  function openModal(p, card) {
+  function specChip(label, value) {
+    const el = document.createElement('span');
+    el.className = 'rounded-lg border border-line bg-elev px-3 py-1.5 text-xs text-bone/60';
+    el.innerHTML = `<span class="text-bone/35">${label}:</span> <strong class="font-semibold text-bone/90">${value}</strong>`;
+    return el;
+  }
+
+  function openModal(p) {
     if (p.imagen) {
       modalImg.src = p.imagen;
       modalImg.alt = p.nombre;
@@ -137,19 +231,28 @@ import ProductCard from './ProductCard.astro';
     if (p.badge) {
       modalBadge.textContent = badgeLabels[p.badge];
       modalBadge.className =
-        'rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ' + badgeStyles[p.badge];
+        'rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest ' + badgeStyles[p.badge];
     } else {
       modalBadge.className = 'hidden';
     }
 
+    modalCategoria.textContent = catLabels[p.categoria] || p.categoria;
     modalNombre.textContent = p.nombre;
     modalDesc.textContent = p.descripcion;
-    modalPuffs.textContent = p.puffs ? `${p.puffs} puffs` : '';
-    modalPrecio.textContent = `${moneda}${p.precio}`;
+    modalPrecio.textContent = p.precio != null ? `${moneda}${p.precio.toLocaleString('es-MX')}` : 'A consultar';
 
-    const agotado = p.badge === 'agotado';
+    modalSpecs.innerHTML = '';
+    if (p.puffs) modalSpecs.appendChild(specChip('Puffs', p.puffs.toLocaleString('es-MX')));
+    if (p.sabor) modalSpecs.appendChild(specChip('Sabor', p.sabor));
+    if (typeof p.cantidad === 'number') {
+      modalSpecs.appendChild(specChip('Disponibles', p.cantidad === 0 ? 'Agotado' : `${p.cantidad} unidades`));
+    }
+    modalSpecs.appendChild(specChip('Categoría', catLabels[p.categoria] || p.categoria));
+
+    const agotado = p.badge === 'agotado' || p.cantidad === 0;
     modalWa.classList.toggle('hidden', agotado);
-    const msg = encodeURIComponent(`Hola! Me interesa el producto: *${p.nombre}* (${moneda}${p.precio}). ¿Está disponible?`);
+    const etiquetaPrecio = p.precio != null ? ` (${moneda}${p.precio})` : '';
+    const msg = encodeURIComponent(`Hola! Me interesa el producto: *${p.nombre}*${etiquetaPrecio}. ¿Está disponible?`);
     modalWa.href = `https://wa.me/${whatsapp}?text=${msg}`;
 
     modal.classList.remove('hidden');
@@ -165,9 +268,8 @@ import ProductCard from './ProductCard.astro';
 
   cards.forEach((card) => {
     card.addEventListener('click', (e) => {
-      // No abrir el modal si el clic fue en el botón Consultar de la card
       if (e.target.closest('a')) return;
-      openModal(JSON.parse(card.dataset.product), card);
+      openModal(JSON.parse(card.dataset.product));
     });
   });
 
@@ -179,3 +281,13 @@ import ProductCard from './ProductCard.astro';
     if (e.key === 'Escape') closeModal();
   });
 </script>
+
+<style>
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
