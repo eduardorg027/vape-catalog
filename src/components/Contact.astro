@@ -27,14 +27,19 @@ import { siteConfig } from '../data/config.js';
         >
           💬 WhatsApp
         </a>
-        <a
-          href={siteConfig.instagram}
-          target="_blank"
-          rel="noopener"
-          class="inline-flex items-center justify-center gap-2 rounded-xl border border-line px-7 py-3.5 font-semibold text-bone/80 transition hover:border-acid/45 hover:text-bone"
+        <!-- Instagram: deshabilitado por ahora (visible, con hover, sin clic) -->
+        <span
+          role="button"
+          aria-disabled="true"
+          tabindex="-1"
+          title="Próximamente"
+          class="inline-flex cursor-not-allowed select-none items-center justify-center gap-2 rounded-xl border border-line px-7 py-3.5 font-semibold text-bone/40 transition hover:border-bone/25 hover:bg-elev hover:text-bone/75"
         >
           📸 Instagram
-        </a>
+          <span class="rounded-full border border-line px-2 py-0.5 text-[10px] uppercase tracking-wider text-bone/40">
+            pronto
+          </span>
+        </span>
       </div>
 
       <p class="mt-7 text-[11px] uppercase tracking-widest text-bone/30">
