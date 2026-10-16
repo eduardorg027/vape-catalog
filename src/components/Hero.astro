@@ -41,9 +41,17 @@ const totalProductos = products.length;
   </nav>
 
   <!-- Hero -->
-  <div class="relative mx-auto max-w-4xl px-5 pb-14 pt-10 text-center sm:px-6 md:pb-20 md:pt-16">
+  <div class="relative mx-auto max-w-4xl px-5 pb-14 pt-8 text-center sm:px-6 md:pb-20 md:pt-12">
+    <!-- Logo grande -->
+    <div
+      class="animate-fadeUp mx-auto mb-7 flex h-28 w-28 items-center justify-center rounded-[1.75rem] bg-acid p-4 shadow-glow md:h-36 md:w-36 md:p-5"
+    >
+      <img src="/logo-mark.png" alt="Vapes Skull Gv" class="h-full w-full object-contain" />
+    </div>
+
     <p
       class="animate-fadeUp mb-6 inline-flex items-center gap-2 rounded-full border border-line px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-bone/50"
+      style="animation-delay: 80ms"
     >
       <span class="h-1.5 w-1.5 rounded-full bg-acid"></span>
       Catálogo privado · Entrega discreta
@@ -51,7 +59,7 @@ const totalProductos = products.length;
 
     <h1
       class="animate-fadeUp font-display text-[2.75rem] uppercase leading-[0.9] tracking-tight sm:text-6xl md:text-7xl"
-      style="animation-delay: 80ms"
+      style="animation-delay: 130ms"
     >
       <span class="bg-gradient-to-b from-acid-soft to-acid-deep bg-clip-text text-transparent">
         {siteConfig.nombre}
@@ -60,7 +68,7 @@ const totalProductos = products.length;
 
     <p
       class="animate-fadeUp mx-auto mt-6 max-w-lg text-base leading-relaxed text-bone/55 md:text-lg"
-      style="animation-delay: 160ms"
+      style="animation-delay: 200ms"
     >
       {siteConfig.tagline} · Pide por WhatsApp y recibe tu producto sin complicaciones.
     </p>
