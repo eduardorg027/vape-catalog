@@ -24,14 +24,14 @@ const pocasPiezas = unidades !== null && unidades > 0 && unidades <= 3;
   data-product={JSON.stringify(product)}
 >
   <!-- Imagen con bordes redondeados -->
-  <div class="relative aspect-[4/3] overflow-hidden rounded-xl border border-line bg-elev">
+  <div class="relative aspect-square overflow-hidden rounded-xl border border-line bg-elev">
     {
       product.imagen ? (
         <img
           src={product.imagen}
           alt={product.nombre}
           loading="lazy"
-          class="h-full w-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-[1.08]"
+          class="h-full w-full object-contain p-3 transition-transform duration-500 ease-out group-hover:scale-[1.06]"
         />
       ) : (
         <span class="absolute inset-0 flex items-center justify-center text-6xl opacity-20 transition-transform duration-500 group-hover:scale-110">
@@ -86,7 +86,13 @@ const pocasPiezas = unidades !== null && unidades > 0 && unidades <= 3;
                   : 'border-line bg-elev text-bone/60',
             ]}
           >
-            {unidades === 0 ? 'Agotado' : pocasPiezas ? `¡Últimas ${unidades}!` : `Cantidad: ${unidades}`}
+            {unidades === 0
+              ? 'Agotado'
+              : pocasPiezas
+                ? unidades === 1
+                  ? '¡Última!'
+                  : `¡Últimas ${unidades}!`
+                : `Cantidad: ${unidades}`}
           </span>
         )
       }

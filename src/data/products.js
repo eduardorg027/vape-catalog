@@ -12,6 +12,8 @@
 //   puffs       → número de caladas (null si no aplica)
 //   imagen      → '/productos/archivo.jpg' o null
 //   badge       → 'nuevo' | 'top' | 'agotado' | null
+//
+// Las fotos van en public/productos/ y se referencian como '/productos/archivo.jpg'.
 
 export const products = [
   {
@@ -23,7 +25,7 @@ export const products = [
     cantidad: 1,
     sabor: 'Velvet Latte',
     puffs: 35000,
-    imagen: null,
+    imagen: '/productos/nexa-pix-velvet-latte.jpg',
     badge: null,
   },
   {
@@ -35,7 +37,7 @@ export const products = [
     cantidad: 1,
     sabor: 'Frozen Banana',
     puffs: 35000,
-    imagen: '/productos/nexa-pix2.jpg',
+    imagen: '/productos/nexa-pix-frozen-banana.jpg',
     badge: null,
   },
   {
@@ -47,7 +49,7 @@ export const products = [
     cantidad: 2,
     sabor: 'Peach Ice',
     puffs: 25000,
-    imagen: null,
+    imagen: '/productos/vnm-peach-ice.jpg',
     badge: null,
   },
   {
@@ -59,7 +61,7 @@ export const products = [
     cantidad: 1,
     sabor: 'Cool Mint',
     puffs: 18000,
-    imagen: null,
+    imagen: '/productos/evo-dozo-cool-mint.jpg',
     badge: null,
   },
   {
@@ -71,7 +73,7 @@ export const products = [
     cantidad: 1,
     sabor: 'Banana',
     puffs: 15000,
-    imagen: null,
+    imagen: '/productos/tequila-vape-banana.jpg',
     badge: null,
   },
   {
@@ -83,7 +85,7 @@ export const products = [
     cantidad: 6,
     sabor: 'Gummy Mint',
     puffs: 8000,
-    imagen: null,
+    imagen: '/productos/wave-gummy-mint.jpg',
     badge: 'nuevo',
   },
   {
@@ -95,7 +97,7 @@ export const products = [
     cantidad: 4,
     sabor: 'Dragon Fruit Berry',
     puffs: 7500,
-    imagen: null,
+    imagen: '/productos/orion-bar-dragon-fruit-berry.jpg',
     badge: null,
   },
   {
@@ -107,7 +109,7 @@ export const products = [
     cantidad: 3,
     sabor: 'Blueberry Pie',
     puffs: 7500,
-    imagen: null,
+    imagen: '/productos/orion-bar-blueberry-pie.jpg',
     badge: null,
   },
   {
@@ -119,7 +121,7 @@ export const products = [
     cantidad: 2,
     sabor: 'Grape Delight',
     puffs: 7500,
-    imagen: null,
+    imagen: '/productos/orion-bar-grape-delight.png',
     badge: null,
   },
   {
@@ -131,7 +133,7 @@ export const products = [
     cantidad: 1,
     sabor: null,
     puffs: null,
-    imagen: null,
+    imagen: '/productos/packman-wax.jpg',
     badge: null,
   },
 ];
